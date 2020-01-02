@@ -1,0 +1,4 @@
+plugin: hcloud
+connect_with: public_ipv4
+groups:
+  - hcloud

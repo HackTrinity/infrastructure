@@ -1,0 +1,4 @@
+plugin: vultr
+hostname: v4_main_ip
+groups:
+   - vultr
