@@ -2,3 +2,6 @@ plugin: vultr
 hostname: v4_main_ip
 groups:
    - vultr
+keyed_groups:
+  - key: tag
+    separator: ''
