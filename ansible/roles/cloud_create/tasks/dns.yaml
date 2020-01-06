@@ -1,0 +1,27 @@
+- name: Create Cloudflare DNS record {{ record }}.{{ domain }} A {{ ip }}
+  vars:
+    record: '{{ index }}.{{ type }}s.sys'
+  cloudflare_dns:
+    account_email: "{{ cloudflare['email'] }}"
+    account_api_token: "{{ cloudflare['api_token'] }}"
+    zone: '{{ domain }}'
+    record: '{{ record }}'
+    type: A
+    value: '{{ ip }}'
+    proxied: no
+    solo: yes
+    state: present
+
+- name: Add {{ ip }} to {{ record }}.{{ domain }} Cloudflare A record
+  vars:
+    record: '{{ type }}s.sys'
+  cloudflare_dns:
+    account_email: "{{ cloudflare['email'] }}"
+    account_api_token: "{{ cloudflare['api_token'] }}"
+    zone: '{{ domain }}'
+    record: '{{ record }}'
+    type: A
+    value: '{{ ip }}'
+    proxied: no
+    solo: no
+    state: present

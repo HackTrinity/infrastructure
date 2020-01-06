@@ -8,10 +8,23 @@
     public_ip: dynamic
     enable_ipv6: no
     state: running
+    wait: true
     tags:
       - scaleway
       - hacktrinity
       - '{{ type }}s'
+- name: Get {{ type }} {{ i }} info from Scaleway
+  scaleway_server_info:
+    region: "{{ params['scaleway']['region'] }}"
+  register: scw_result
+  vars:
+    scw_hostname: '{{ type }}{{ i }}'
+- name: Create DNS records for {{ type }} {{ i }}
+  import_tasks: dns.yaml
+  vars:
+    index: '{{ i }}'
+    query: 'scaleway_server_info[?hostname==`{{ type }}{{ i }}`].public_ip.address | [0]'
+    ip: "{{ scw_result | json_query(query) }}"
 
 - name: Create {{ type }} {{ i + 1 }} on Hetzner Cloud
   vars:
@@ -28,6 +41,12 @@
       - "{{ params['hcloud']['ssh_key'] }}"
     state: started
     labels: '{{ labels|items2dict }}'
+  register: hcloud_result
+- name: Create DNS records for {{ type }} {{ i + 1 }}
+  import_tasks: dns.yaml
+  vars:
+    index: '{{ i + 1 }}'
+    ip: "{{ hcloud_result['hcloud_server']['ipv4_address'] }}"
 
 - name: Create {{ type }} {{ i + 2 }} on Vultr
   vultr_server:
@@ -40,3 +59,9 @@
     ipv6_enabled: no
     state: started
     tag: '{{ type }}s'
+  register: vultr_result
+- name: Create DNS records for {{ type }} {{ i + 2 }}
+  import_tasks: dns.yaml
+  vars:
+    index: '{{ i + 2 }}'
+    ip: "{{ vultr_result['vultr_server']['v4_main_ip'] }}"

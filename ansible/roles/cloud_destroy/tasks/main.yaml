@@ -2,6 +2,15 @@
   include_vars:
     file: ../../cloud_create/defaults/main.yaml
 
+- name: Delete DNS records
+  vars:
+    type: '{{ name|ht_type }}'
+    id: '{{ name|ht_id }}'
+  include_tasks: dns.yaml
+  loop: "{{ groups['all'] }}"
+  loop_control:
+    loop_var: name
+
 - name: Destroy nodes
   include_tasks: destroy_each.yaml
   loop:

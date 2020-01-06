@@ -1,0 +1,24 @@
+- name: Remove {{ ip }} from {{ record }}.{{ domain }} Cloudflare A record
+  vars:
+    record: '{{ type }}s.sys'
+    fqdn: '{{ id }}.{{ record }}.{{ domain }}.'
+    ip: "{{ lookup('dig', fqdn, 'qtype=A') }}"
+  cloudflare_dns:
+    account_email: "{{ cloudflare['email'] }}"
+    account_api_token: "{{ cloudflare['api_token'] }}"
+    zone: '{{ domain }}'
+    record: '{{ record }}'
+    type: A
+    value: '{{ ip }}'
+    state: absent
+
+- name: Delete Cloudflare DNS A record {{ record }}.{{ domain }}
+  vars:
+    record: '{{ id }}.{{ type }}s.sys'
+  cloudflare_dns:
+    account_email: "{{ cloudflare['email'] }}"
+    account_api_token: "{{ cloudflare['api_token'] }}"
+    zone: '{{ domain }}'
+    record: '{{ record }}'
+    type: A
+    state: absent
