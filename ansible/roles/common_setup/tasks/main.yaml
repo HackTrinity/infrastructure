@@ -1,0 +1,5 @@
+- name: Get kernel info
+  command: 'uname -a'
+  register: result
+- debug:
+    msg: "{{ result['stdout'] }}"
