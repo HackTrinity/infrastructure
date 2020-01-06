@@ -1,0 +1,12 @@
+- name: Include creation variables
+  include_vars:
+    file: ../../cloud_create/defaults/main.yaml
+
+- name: Destroy nodes
+  include_tasks: destroy_each.yaml
+  loop:
+    - scaleway
+    - hcloud
+    - vultr
+  loop_control:
+    loop_var: provider

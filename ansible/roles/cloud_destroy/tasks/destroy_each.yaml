@@ -1,0 +1,9 @@
+- name: Destroy {{ provider }} nodes
+  vars:
+    type: '{{ name|ht_type }}'
+    id: '{{ name|ht_id }}'
+  include_tasks: 'destroy_{{ provider }}.yaml'
+  loop: "{{ groups[provider] }}"
+  loop_control:
+    loop_var: name
+  when: 'provider in groups'

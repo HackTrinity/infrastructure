@@ -1,0 +1,9 @@
+- name: Destroy Scaleway {{ type }} {{ id }}
+  scaleway_compute:
+    name: '{{ name }}'
+    organization: "{{ scaleway['organization'] }}"
+    commercial_type: "{{ params['scaleway']['sizes'][type] }}"
+    image: "{{ params['scaleway']['image'] }}"
+    region: "{{ params['scaleway']['region'] }}"
+    state: absent
+    wait: yes

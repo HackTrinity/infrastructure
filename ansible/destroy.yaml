@@ -1,3 +1,3 @@
 - hosts: localhost
   roles:
-    - cloud_create
+    - cloud_destroy
