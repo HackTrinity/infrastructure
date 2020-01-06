@@ -1,0 +1,27 @@
+# Tokens aren't allowed to modify SSH keys on Scaleway?
+- name: Add SSH key to Scaleway
+  scaleway_sshkey:
+    ssh_pub_key: '{{ ssh_pubkey }}'
+    state: present
+- name: Add SSH key to Hetzner Cloud
+  hcloud_ssh_key:
+    name: "{{ params['hcloud']['ssh_key'] }}"
+    public_key: '{{ ssh_pubkey }}'
+    state: present
+- name: Add SSH key to Vultr
+  vultr_ssh_key:
+    name: "{{ params['vultr']['ssh_key'] }}"
+    ssh_key: '{{ ssh_pubkey }}'
+    state: present
+
+- name: Create managers
+  import_tasks: create.yaml
+  vars:
+    type: manager
+- name: Create workers
+  import_tasks: create.yaml
+  vars:
+    type: worker
+
+- name: Reload inventory
+  meta: refresh_inventory

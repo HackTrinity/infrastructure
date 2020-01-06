@@ -1,0 +1,5 @@
+- name: Create cloud instances
+  include_tasks: create_each.yaml
+  vars:
+    i: '{{ item }}'
+  loop: "{{ (counts[type] / 3)|round(0, 'ceil')|int|range }}"

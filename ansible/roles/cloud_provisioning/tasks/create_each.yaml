@@ -1,0 +1,42 @@
+- name: Create {{ type }} {{ i }} on Scaleway
+  scaleway_compute:
+    name: '{{ type }}{{ i }}'
+    organization: "{{ scaleway['organization'] }}"
+    commercial_type: "{{ params['scaleway']['sizes'][type] }}"
+    image: "{{ params['scaleway']['image'] }}"
+    region: "{{ params['scaleway']['region'] }}"
+    public_ip: dynamic
+    enable_ipv6: no
+    state: running
+    tags:
+      - scaleway
+      - hacktrinity
+      - '{{ type }}s'
+
+- name: Create {{ type }} {{ i + 1 }} on Hetzner Cloud
+  vars:
+    labels:
+      # Dictionary keys don't use templating...
+      - key: '{{ type }}s'
+        value: ''
+  hcloud_server:
+    name: '{{ type }}{{ i + 1 }}'
+    server_type: "{{ params['hcloud']['sizes'][type] }}"
+    image: "{{ params['hcloud']['image'] }}"
+    location: "{{ params['hcloud']['region'] }}"
+    ssh_keys:
+      - "{{ params['hcloud']['ssh_key'] }}"
+    state: started
+    labels: '{{ labels|items2dict }}'
+
+- name: Create {{ type }} {{ i + 2 }} on Vultr
+  vultr_server:
+    name: '{{ type }}{{ i + 2 }}'
+    plan: "{{ params['vultr']['sizes'][type] }}"
+    os: "{{ params['vultr']['image'] }}"
+    region: "{{ params['vultr']['region'] }}"
+    ssh_keys:
+      - "{{ params['vultr']['ssh_key'] }}"
+    ipv6_enabled: no
+    state: started
+    tag: '{{ type }}s'

@@ -1,0 +1,24 @@
+counts:
+  manager: 3
+  worker: 3
+params:
+  scaleway:
+    sizes:
+      manager: DEV1-S
+      worker: DEV1-S
+    region: par1
+    image: f974feac-abae-4365-b988-8ec7d1cec10d
+  hcloud:
+    sizes:
+      manager: cx11
+      worker: cx11
+    region: nbg1
+    image: ubuntu-18.04
+    ssh_key: main
+  vultr:
+    sizes:
+      manager: 1024 MB RAM,25 GB SSD,1.00 TB BW
+      worker: 1024 MB RAM,25 GB SSD,1.00 TB BW
+    region: Amsterdam
+    image: Ubuntu 18.04 x64
+    ssh_key: HackTrinity
