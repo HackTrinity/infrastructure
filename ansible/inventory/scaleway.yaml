@@ -4,4 +4,7 @@ hostnames:
 variables:
   ansible_host: public_ip.address
 tags:
+  - scaleway
   - hacktrinity
+  - managers
+  - workers
