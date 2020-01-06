@@ -11,6 +11,11 @@
   loop_control:
     loop_var: name
 
+- name: Get server info from Scaleway
+  scaleway_server_info:
+    region: "{{ params['scaleway']['region'] }}"
+  register: scw_servers
+
 - name: Destroy nodes
   include_tasks: destroy_each.yaml
   loop:

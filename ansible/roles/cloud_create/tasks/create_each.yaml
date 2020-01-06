@@ -17,8 +17,6 @@
   scaleway_server_info:
     region: "{{ params['scaleway']['region'] }}"
   register: scw_result
-  vars:
-    scw_hostname: '{{ type }}{{ i }}'
 - name: Create DNS records for {{ type }} {{ i }}
   import_tasks: dns.yaml
   vars:

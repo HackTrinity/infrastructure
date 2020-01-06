@@ -7,3 +7,11 @@
     region: "{{ params['scaleway']['region'] }}"
     state: absent
     wait: yes
+
+- name: Delete Scaleway volume {{ vol_id }} for {{ type }} {{ id }}
+  vars:
+    query: "scaleway_server_info[?hostname==`{{ name }}`].volumes.\"0\".id | [0]"
+    vol_id: '{{ scw_servers | json_query(query) }}'
+  scw_del_vol_id:
+    id: '{{ vol_id }}'
+    region: "{{ params['scaleway']['region'] }}"

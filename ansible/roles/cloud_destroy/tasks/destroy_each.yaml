@@ -2,7 +2,7 @@
   vars:
     type: '{{ name|ht_type }}'
     id: '{{ name|ht_id }}'
-  include_tasks: 'destroy_{{ provider }}.yaml'
+  include_tasks: '{{ provider }}.yaml'
   loop: "{{ groups[provider] }}"
   loop_control:
     loop_var: name
