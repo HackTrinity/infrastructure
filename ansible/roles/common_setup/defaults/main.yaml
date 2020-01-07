@@ -1,0 +1,12 @@
+ubuntu_utils:
+  - iputils-ping
+  - traceroute
+  - ldnsutils
+docker:
+  ubuntu:
+    gpg: https://download.docker.com/linux/ubuntu/gpg
+    repo: https://download.docker.com/linux/ubuntu
+  volumes:
+    image: /data/docker-volumes.img
+    mountpoint: /var/lib/docker/volumes
+    size: 8G
