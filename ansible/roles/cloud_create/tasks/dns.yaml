@@ -2,8 +2,8 @@
   vars:
     record: '{{ index }}.{{ type }}s.sys'
   cloudflare_dns:
-    account_email: "{{ cloudflare['email'] }}"
-    account_api_token: "{{ cloudflare['api_token'] }}"
+    account_email: '{{ cloudflare.email }}'
+    account_api_token: '{{ cloudflare.api_token }}'
     zone: '{{ domain }}'
     record: '{{ record }}'
     type: A
@@ -16,8 +16,8 @@
   vars:
     record: '{{ type }}s.sys'
   cloudflare_dns:
-    account_email: "{{ cloudflare['email'] }}"
-    account_api_token: "{{ cloudflare['api_token'] }}"
+    account_email: '{{ cloudflare.email }}'
+    account_api_token: '{{ cloudflare.api_token }}'
     zone: '{{ domain }}'
     record: '{{ record }}'
     type: A

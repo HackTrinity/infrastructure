@@ -5,12 +5,12 @@
     state: present
 - name: Add SSH key to Hetzner Cloud
   hcloud_ssh_key:
-    name: "{{ params['hcloud']['ssh_key'] }}"
+    name: '{{ cloud_params.hcloud.ssh_key }}'
     public_key: '{{ ssh_pubkey }}'
     state: present
 - name: Add SSH key to Vultr
   vultr_ssh_key:
-    name: "{{ params['vultr']['ssh_key'] }}"
+    name: '{{ cloud_params.vultr.ssh_key }}'
     ssh_key: '{{ ssh_pubkey }}'
     state: present
 

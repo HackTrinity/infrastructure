@@ -4,8 +4,8 @@
     fqdn: '{{ id }}.{{ record }}.{{ domain }}.'
     ip: "{{ lookup('dig', fqdn, 'qtype=A') }}"
   cloudflare_dns:
-    account_email: "{{ cloudflare['email'] }}"
-    account_api_token: "{{ cloudflare['api_token'] }}"
+    account_email: '{{ cloudflare.email }}'
+    account_api_token: '{{ cloudflare.api_token }}'
     zone: '{{ domain }}'
     record: '{{ record }}'
     type: A
@@ -16,8 +16,8 @@
   vars:
     record: '{{ id }}.{{ type }}s.sys'
   cloudflare_dns:
-    account_email: "{{ cloudflare['email'] }}"
-    account_api_token: "{{ cloudflare['api_token'] }}"
+    account_email: '{{ cloudflare.email }}'
+    account_api_token: '{{ cloudflare.api_token }}'
     zone: '{{ domain }}'
     record: '{{ record }}'
     type: A

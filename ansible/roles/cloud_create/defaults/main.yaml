@@ -1,7 +1,7 @@
 counts:
   manager: 3
   worker: 3
-params:
+cloud_params:
   scaleway:
     sizes:
       manager: DEV1-S

@@ -3,7 +3,7 @@
     type: '{{ name|ht_type }}'
     id: '{{ name|ht_id }}'
   include_tasks: '{{ provider }}.yaml'
-  loop: "{{ groups[provider] }}"
+  loop: '{{ groups[provider] }}'
   loop_control:
     loop_var: name
   when: 'provider in groups'

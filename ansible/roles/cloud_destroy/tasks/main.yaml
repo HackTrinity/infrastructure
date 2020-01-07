@@ -7,13 +7,13 @@
     type: '{{ name|ht_type }}'
     id: '{{ name|ht_id }}'
   include_tasks: dns.yaml
-  loop: "{{ groups['all'] }}"
+  loop: '{{ groups.all }}'
   loop_control:
     loop_var: name
 
 - name: Get server info from Scaleway
   scaleway_server_info:
-    region: "{{ params['scaleway']['region'] }}"
+    region: '{{ cloud_params.scaleway.region }}'
   register: scw_servers
 
 - name: Destroy nodes

@@ -1,10 +1,10 @@
 - name: Create {{ type }} {{ i }} on Scaleway
   scaleway_compute:
     name: '{{ type }}{{ i }}'
-    organization: "{{ scaleway['organization'] }}"
-    commercial_type: "{{ params['scaleway']['sizes'][type] }}"
-    image: "{{ params['scaleway']['image'] }}"
-    region: "{{ params['scaleway']['region'] }}"
+    organization: '{{ scaleway.organization }}'
+    commercial_type: '{{ cloud_params.scaleway.sizes[type] }}'
+    image: '{{ cloud_params.scaleway.image }}'
+    region: '{{ cloud_params.scaleway.region }}'
     public_ip: dynamic
     enable_ipv6: no
     state: running
@@ -15,7 +15,7 @@
       - '{{ type }}s'
 - name: Get {{ type }} {{ i }} info from Scaleway
   scaleway_server_info:
-    region: "{{ params['scaleway']['region'] }}"
+    region: '{{ cloud_params.scaleway.region }}'
   register: scw_result
 - name: Create DNS records for {{ type }} {{ i }}
   import_tasks: dns.yaml
@@ -32,11 +32,11 @@
         value: ''
   hcloud_server:
     name: '{{ type }}{{ i + 1 }}'
-    server_type: "{{ params['hcloud']['sizes'][type] }}"
-    image: "{{ params['hcloud']['image'] }}"
-    location: "{{ params['hcloud']['region'] }}"
+    server_type: '{{ cloud_params.hcloud.sizes[type] }}'
+    image: '{{ cloud_params.hcloud.image }}'
+    location: '{{ cloud_params.hcloud.region }}'
     ssh_keys:
-      - "{{ params['hcloud']['ssh_key'] }}"
+      - '{{ cloud_params.hcloud.ssh_key }}'
     state: started
     labels: '{{ labels|items2dict }}'
   register: hcloud_result
@@ -44,16 +44,16 @@
   import_tasks: dns.yaml
   vars:
     index: '{{ i + 1 }}'
-    ip: "{{ hcloud_result['hcloud_server']['ipv4_address'] }}"
+    ip: '{{ hcloud_result.hcloud_server.ipv4_address }}'
 
 - name: Create {{ type }} {{ i + 2 }} on Vultr
   vultr_server:
     name: '{{ type }}{{ i + 2 }}'
-    plan: "{{ params['vultr']['sizes'][type] }}"
-    os: "{{ params['vultr']['image'] }}"
-    region: "{{ params['vultr']['region'] }}"
+    plan: '{{ cloud_params.vultr.sizes[type] }}'
+    os: '{{ cloud_params.vultr.image }}'
+    region: '{{ cloud_params.vultr.region }}'
     ssh_keys:
-      - "{{ params['vultr']['ssh_key'] }}"
+      - '{{ cloud_params.vultr.ssh_key }}'
     ipv6_enabled: no
     state: started
     tag: '{{ type }}s'
@@ -62,4 +62,4 @@
   import_tasks: dns.yaml
   vars:
     index: '{{ i + 2 }}'
-    ip: "{{ vultr_result['vultr_server']['v4_main_ip'] }}"
+    ip: '{{ vultr_result.vultr_server.v4_main_ip }}'
