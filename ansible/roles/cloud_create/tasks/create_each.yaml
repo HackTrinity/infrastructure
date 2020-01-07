@@ -49,6 +49,7 @@
 - name: Create {{ type }} {{ i + 2 }} on Vultr
   vultr_server:
     name: '{{ type }}{{ i + 2 }}'
+    hostname: '{{ type }}{{ i + 2 }}'
     plan: '{{ cloud_params.vultr.sizes[type] }}'
     os: '{{ cloud_params.vultr.image }}'
     region: '{{ cloud_params.vultr.region }}'
