@@ -1,2 +1,27 @@
-- import_playbook: create.yaml
-- import_playbook: provision.yaml
+- name: Create infrastructure
+  import_role:
+    name: cloud_create
+  tags:
+    - create
+
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: Wait for nodes to come online
+      wait_for_connection:
+        timeout: 120
+    - name: Gather facts
+      setup:
+    - import_role:
+        name: common_setup
+  tags:
+    - create
+
+- hosts: managers
+  vars:
+    init_node: manager0
+    others: '{{ groups.managers | difference([init_node]) }}'
+  import_role:
+    name: manager_setup
+  tags:
+    - provision

@@ -11,6 +11,8 @@
     type: A
     value: '{{ ip }}'
     state: absent
+  tags:
+    - dns
 
 - name: Delete Cloudflare DNS A record {{ record }}.{{ domain }}
   vars:
@@ -22,3 +24,5 @@
     record: '{{ record }}'
     type: A
     state: absent
+  tags:
+    - dns

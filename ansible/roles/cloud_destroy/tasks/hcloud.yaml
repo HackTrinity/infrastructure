@@ -2,3 +2,5 @@
   hcloud_server:
     name: '{{ name }}'
     state: absent
+  tags:
+    - hcloud

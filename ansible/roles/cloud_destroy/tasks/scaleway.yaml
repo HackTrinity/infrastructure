@@ -7,6 +7,8 @@
     region: '{{ cloud_params.scaleway.region }}'
     state: absent
     wait: yes
+  tags:
+    - scaleway
 
 - name: Delete Scaleway volume {{ vol_id }} for {{ type }} {{ id }}
   vars:
@@ -15,3 +17,5 @@
   scw_del_vol_id:
     id: '{{ vol_id }}'
     region: '{{ cloud_params.scaleway.region }}'
+  tags:
+    - scaleway

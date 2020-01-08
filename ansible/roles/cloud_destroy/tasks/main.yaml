@@ -10,11 +10,15 @@
   loop: '{{ groups.all }}'
   loop_control:
     loop_var: name
+  tags:
+    - dns
 
 - name: Get server info from Scaleway
   scaleway_server_info:
     region: '{{ cloud_params.scaleway.region }}'
   register: scw_servers
+  tags:
+    - scaleway
 
 - name: Destroy nodes
   include_tasks: destroy_each.yaml

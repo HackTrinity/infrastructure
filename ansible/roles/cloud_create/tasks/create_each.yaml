@@ -13,16 +13,23 @@
       - scaleway
       - hacktrinity
       - '{{ type }}s'
+  tags:
+    - scaleway
 - name: Get {{ type }} {{ i }} info from Scaleway
   scaleway_server_info:
     region: '{{ cloud_params.scaleway.region }}'
   register: scw_result
+  tags:
+    - scaleway
 - name: Create DNS records for {{ type }} {{ i }}
   import_tasks: dns.yaml
   vars:
     index: '{{ i }}'
     query: 'scaleway_server_info[?hostname==`{{ type }}{{ i }}`].public_ip.address | [0]'
     ip: "{{ scw_result | json_query(query) }}"
+  tags:
+    - dns
+    - scaleway
 
 - name: Create {{ type }} {{ i + 1 }} on Hetzner Cloud
   vars:
@@ -40,11 +47,16 @@
     state: started
     labels: '{{ labels|items2dict }}'
   register: hcloud_result
+  tags:
+    - hcloud
 - name: Create DNS records for {{ type }} {{ i + 1 }}
   import_tasks: dns.yaml
   vars:
     index: '{{ i + 1 }}'
     ip: '{{ hcloud_result.hcloud_server.ipv4_address }}'
+  tags:
+    - dns
+    - hcloud
 
 - name: Create {{ type }} {{ i + 2 }} on Vultr
   vultr_server:
@@ -59,8 +71,13 @@
     state: started
     tag: '{{ type }}s'
   register: vultr_result
+  tags:
+    - vultr
 - name: Create DNS records for {{ type }} {{ i + 2 }}
   import_tasks: dns.yaml
   vars:
     index: '{{ i + 2 }}'
     ip: '{{ vultr_result.vultr_server.v4_main_ip }}'
+  tags:
+    - dns
+    - vultr
