@@ -1,5 +1,6 @@
 - name: Create infrastructure
-  hosts: localhost
+  hosts:
+    - localhost
   tasks:
     - import_role:
         name: cloud_create
@@ -23,9 +24,6 @@
 
 - name: Manager node setup
   hosts: managers
-  vars:
-    init_node: manager0
-    others: '{{ groups.managers | difference([init_node]) }}'
   tasks:
     - import_role:
         name: manager_setup

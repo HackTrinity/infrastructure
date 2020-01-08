@@ -11,9 +11,9 @@
 
 - name: Establish GlusterFS storage pool
   gluster_peer:
-    nodes: '{{ others }}'
+    nodes: '{{ groups.managers | difference([inventory_hostname]) }}'
     state: present
-  when: inventory_hostname == init_node
+  run_once: yes
 
 - name: Create GlusterFS brick directory
   file:
