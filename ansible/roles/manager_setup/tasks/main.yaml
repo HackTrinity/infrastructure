@@ -1,0 +1,16 @@
+- name: Add GlusterFS PPA
+  apt_repository:
+    repo: '{{ glusterfs.ppa }}'
+    update_cache: yes
+    state: present
+- name: Install GlusterFS
+  apt:
+    name: glusterfs-server
+    update_cache: no
+    state: latest
+
+- name: Establish GlusterFS storage pool
+  gluster_peer:
+    nodes: '{{ others }}'
+    state: present
+  when: inventory_hostname == init_node

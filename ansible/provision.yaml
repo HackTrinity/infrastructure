@@ -8,3 +8,10 @@
       setup:
     - import_role:
         name: common_setup
+
+- hosts: managers
+  vars:
+    init_node: manager0
+    others: '{{ groups.managers | difference([init_node]) }}'
+  roles:
+    - manager_setup

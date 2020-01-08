@@ -1,0 +1,2 @@
+glusterfs:
+  ppa: ppa:gluster/glusterfs-7
