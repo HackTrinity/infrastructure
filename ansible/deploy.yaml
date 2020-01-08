@@ -19,12 +19,16 @@
         name: common_setup
   tags:
     - provision
+    - common
 
-- hosts: managers
+- name: Manager node setup
+  hosts: managers
   vars:
     init_node: manager0
     others: '{{ groups.managers | difference([init_node]) }}'
-  import_role:
-    name: manager_setup
+  tasks:
+    - import_role:
+        name: manager_setup
   tags:
     - provision
+    - managers

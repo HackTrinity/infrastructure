@@ -10,6 +10,8 @@
 
 - name: Set up WireGuard
   import_tasks: wireguard.yaml
+  tags:
+    - wireguard
 
 - name: Add all nodes to /etc/hosts
   lineinfile:
@@ -21,3 +23,5 @@
 
 - name: Set up Docker
   import_tasks: docker.yaml
+  tags:
+    - docker
