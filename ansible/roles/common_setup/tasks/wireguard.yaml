@@ -1,0 +1,56 @@
+- name: Add WireGuard PPA
+  apt_repository:
+    repo: '{{ wireguard.ppa }}'
+    update_cache: yes
+    state: present
+- name: Install WireGuard
+  apt:
+    name:
+      - 'linux-headers-{{ ansible_kernel }}'
+      - wireguard
+    update_cache: no
+    state: latest
+
+- name: Generate WireGuard private key
+  vars:
+    file: '{{ wireguard.dir }}/{{ wireguard.privkey_file }}'
+  shell:
+    cmd: 'wg genkey > {{ file }} && chmod u=rw {{ file }}'
+    creates: '{{ file }}'
+- name: Read WireGuard private key
+  shell:
+    cmd: 'cat {{ wireguard.dir }}/{{ wireguard.privkey_file }}'
+  register: privkey_result
+- name: Set WireGuard private key variable
+  set_fact:
+    wg_privkey: '{{ privkey_result.stdout }}'
+- name: Calculate WireGuard public key
+  shell:
+    cmd: 'wg pubkey < {{ wireguard.dir }}/{{ wireguard.privkey_file }}'
+  register: pubkey_result
+- name: Set WireGuard public key variable
+  set_fact:
+    wg_pubkey: '{{ pubkey_result.stdout }}'
+- name: Copy WireGuard public key to other hosts
+  set_fact:
+    'wg_pubkey_{{ inventory_hostname }}': '{{ wg_pubkey }}'
+  delegate_to: '{{ item }}'
+  delegate_facts: yes
+  loop: '{{ ansible_play_hosts }}'
+  when: item != inventory_hostname
+
+- name: Create WireGuard configuration file {{ file }}
+  vars:
+    file: '{{ wireguard.dir }}/{{ wireguard.interface }}.conf'
+  template:
+    src: wireguard.conf.j2
+    dest: '{{ file }}'
+    mode: u=rw
+  notify: Restart WireGuard
+
+- name: Bring WireGuard interface up
+  systemd:
+    unit: 'wg-quick@{{ wireguard.interface }}.service'
+    enabled: yes
+    state: started
+  register: wg_started

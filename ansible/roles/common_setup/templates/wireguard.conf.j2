@@ -1,0 +1,12 @@
+[Interface]
+PrivateKey = {{ wg_privkey }}
+Address = {{ wireguard.ip_prefix[ht_node.type] }}.{{ ht_node.id + 1 }}/{{ wireguard.cidr }}
+ListenPort = {{ wireguard.port }}
+{% for node in ansible_play_hosts if node != inventory_hostname %}
+{% set peer = hostvars[node] %}
+
+[Peer]
+PublicKey = {{ hostvars[inventory_hostname]['wg_pubkey_' + peer.inventory_hostname] }}
+Endpoint = {{ peer.ht_node.id }}.{{ peer.ht_node.type }}s.sys.{{ domain }}:{{ wireguard.port }}
+AllowedIPs = {{ wireguard.ip_prefix[peer.ht_node.type] }}.{{ peer.ht_node.id + 1 }}/32
+{% endfor %}

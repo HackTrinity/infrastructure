@@ -2,6 +2,16 @@ ubuntu_utils:
   - iputils-ping
   - traceroute
   - ldnsutils
+wireguard:
+  ppa: ppa:wireguard/wireguard
+  dir: /etc/wireguard
+  privkey_file: privkey
+  interface: priv-mesh
+  port: 51820
+  cidr: 23
+  ip_prefix:
+    manager: '192.168.68'
+    worker: '192.168.69'
 docker:
   ubuntu:
     gpg: https://download.docker.com/linux/ubuntu/gpg
