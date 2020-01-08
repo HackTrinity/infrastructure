@@ -1,15 +1,15 @@
 - name: Create disk image directory
   file:
     path: '{{ docker.volumes.image | dirname }}'
-    state: directory
     mode: u=rw,g=r
+    state: directory
 - name: Create Docker volumes disk image
   command:
     cmd: 'truncate -s {{ docker.volumes.size }} {{ docker.volumes.image }}'
-    creates: "{{ docker.volumes.image }}"
+    creates: '{{ docker.volumes.image }}'
 - name: Format Docker volumes disk image as XFS
   filesystem:
-    dev: "{{ docker['volumes']['image'] }}"
+    dev: '{{ docker.volumes.image }}'
     fstype: xfs
 
 - name: Mount and add Docker volumes disk image to /etc/fstab

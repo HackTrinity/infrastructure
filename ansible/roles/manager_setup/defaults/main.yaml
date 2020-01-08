@@ -1,2 +1,8 @@
-glusterfs:
+gluster_params:
   ppa: ppa:gluster/glusterfs-7
+  volume:
+    name: docker-shared-volumes
+    brick: brick0
+    size: 8G
+    fs: xfs
+    mountpoint: /mnt/docker-shared
