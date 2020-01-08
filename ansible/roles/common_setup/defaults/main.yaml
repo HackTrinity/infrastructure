@@ -1,4 +1,5 @@
 ubuntu_utils:
+  - python3-pip
   - iputils-ping
   - traceroute
   - ldnsutils

@@ -1,0 +1,8 @@
+- name: Join workers to Docker Swarm
+  docker_swarm:
+    advertise_addr: '{{ wireguard.interface }}'
+    listen_addr: '{{ wireguard.interface }}'
+    remote_addrs:
+      - '{{ init_node }}'
+    join_token: '{{ hostvars.localhost.sw_worker_token }}'
+    state: join

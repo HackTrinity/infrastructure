@@ -2,11 +2,6 @@
   include_vars:
     file: ../../common_setup/defaults/main.yaml
 
-- name: Set up shared Docker volumes (GlusterFS)
-  import_tasks: glusterfs.yaml
-  tags:
-    - glusterfs
-
 - name: Set up Docker Swarm
   import_tasks: swarm.yaml
   tags:

@@ -24,9 +24,23 @@
 
 - name: Manager node setup
   hosts: managers
+  vars:
+    init_node: manager0
+    other_nodes: '{{ groups.managers | difference([init_node]) }}'
   tasks:
     - import_role:
         name: manager_setup
   tags:
     - provision
     - managers
+
+- name: Worker node setup
+  hosts: workers
+  vars:
+    init_node: manager0
+  tasks:
+    - import_role:
+        name: worker_setup
+  tags:
+    - provision
+    - workers

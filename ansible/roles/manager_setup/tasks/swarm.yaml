@@ -1,0 +1,52 @@
+- name: Initialize Docker Swarm
+  docker_swarm:
+    advertise_addr: '{{ wireguard.interface }}'
+    listen_addr: '{{ wireguard.interface }}'
+    state: present
+  register: sw_init_result
+  when: inventory_hostname == init_node
+- name: Copy manager join token to other nodes
+  set_fact:
+    sw_manager_token: '{{ sw_init_result.swarm_facts.JoinTokens.Manager }}'
+  delegate_to: '{{ item }}'
+  delegate_facts: yes
+  loop: '{{ other_nodes }}'
+  when: inventory_hostname == init_node
+- name: Copy worker join token to controller
+  set_fact:
+    sw_worker_token: '{{ sw_init_result.swarm_facts.JoinTokens.Worker }}'
+  delegate_to: localhost
+  delegate_facts: yes
+  when: inventory_hostname == init_node
+
+- name: Join other managers to Docker Swarm
+  docker_swarm:
+    advertise_addr: '{{ wireguard.interface }}'
+    listen_addr: '{{ wireguard.interface }}'
+    remote_addrs:
+      - '{{ init_node }}'
+    join_token: '{{ sw_manager_token }}'
+    state: join
+  when: inventory_hostname != init_node
+
+- name: Create Traefik network
+  docker_network:
+    name: '{{ swarm.traefik_network }}'
+    driver: overlay
+    state: present
+- name: Upload Docker secrets
+  docker_secret:
+    name: '{{ item.key }}'
+    data: '{{ item.value }}'
+    state: present
+  loop: '{{ docker_secrets | dict2items }}'
+  loop_control:
+    label: '{{ item.key }}'
+  run_once: yes
+- name: Synchronize Docker stacks
+  synchronize:
+    src: ../stacks
+    dest: '{{ gluster_params.volume.mountpoint }}/'
+    archive: no
+    recursive: yes
+  run_once: yes

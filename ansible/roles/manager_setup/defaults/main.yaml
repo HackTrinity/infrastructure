@@ -6,3 +6,5 @@ gluster_params:
     size: 8G
     fs: xfs
     mountpoint: /mnt/docker-shared
+swarm:
+  traefik_network: traefik
