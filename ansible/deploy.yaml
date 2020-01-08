@@ -1,10 +1,13 @@
 - name: Create infrastructure
-  import_role:
-    name: cloud_create
+  hosts: localhost
+  tasks:
+    - import_role:
+        name: cloud_create
   tags:
     - create
 
-- hosts: all
+- name: All node setup
+  hosts: all
   gather_facts: no
   tasks:
     - name: Wait for nodes to come online
@@ -15,7 +18,7 @@
     - import_role:
         name: common_setup
   tags:
-    - create
+    - provision
 
 - hosts: managers
   vars:
