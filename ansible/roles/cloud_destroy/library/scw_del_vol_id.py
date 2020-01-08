@@ -1,5 +1,13 @@
+#!/usr/bin/env python
+
 from ansible.module_utils.scaleway import SCALEWAY_LOCATION, scaleway_argument_spec, Scaleway
 from ansible.module_utils.basic import AnsibleModule
+
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 def core(module):
     id_ = module.params['id']
