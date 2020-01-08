@@ -8,3 +8,5 @@ gluster_params:
     mountpoint: /mnt/docker-shared
 swarm:
   traefik_network: traefik
+  shared_volumes:
+    - portainer

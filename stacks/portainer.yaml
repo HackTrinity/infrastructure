@@ -18,10 +18,10 @@ services:
     image: portainer/portainer
     command: -H tcp://tasks.agent:9001 --tlsskipverify
     volumes:
-      - /mnt/docker/portainer:/data
+      - /mnt/docker-shared/portainer:/data
     networks:
       - agent
-      - traefik-public
+      - traefik
     deploy:
       mode: replicated
       replicas: 1
@@ -39,5 +39,5 @@ services:
 networks:
   agent:
     driver: overlay
-  traefik-public:
+  traefik:
     external: true

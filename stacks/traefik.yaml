@@ -3,12 +3,12 @@ services:
   whoami:
     image: containous/whoami
     networks:
-      - traefik-public
+      - traefik
     deploy:
       mode: global
       labels:
         - 'traefik.enable=true'
-        - 'traefik.http.routers.whoami.rule=Host(`whoami.hacktrinity.org`)'
+        - 'traefik.http.routers.whoami.rule=Host(`whoami.sys.hacktrinity.org`)'
         - 'traefik.http.routers.whoami.entrypoints=https'
         - 'traefik.http.routers.whoami.tls=true'
         - 'traefik.http.routers.whoami.tls.certresolver=le'
@@ -27,12 +27,12 @@ services:
       - --providers.docker.endpoint=unix:///var/run/docker.sock
       - --providers.docker.swarmMode=true
       - --providers.docker.exposedByDefault=false
-      - --providers.docker.network=traefik-public
+      - --providers.docker.network=traefik
       - --providers.docker.defaultRule=Host(`{{ .Name }}.hacktrinity.org`)
       - --entryPoints.http.address=:80
       - --entryPoints.https.address=:443
       - --certificatesResolvers.le.acme.email=jackos1998@gmail.com
-      - --certificatesResolvers.le.acme.storage=/acme.json
+      - --certificatesResolvers.le.acme.storage=/acme/cache.json
       - --certificatesResolvers.le.acme.dnsChallenge.provider=cloudflare
       #- --certificatesResolvers.le.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory
       - --api.dashboard=true
@@ -44,9 +44,9 @@ services:
       - CF_ZONE_API_TOKEN_FILE=/run/secrets/cloudflare_zone_token
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./acme.json:/acme.json
+      - acme:/acme
     networks:
-      - traefik-public
+      - traefik
     deploy:
       mode: global
       placement:
@@ -86,8 +86,11 @@ services:
       - cloudflare_zone_token
       - traefik_users
 
+volumes:
+  acme:
+
 networks:
-  traefik-public:
+  traefik:
     external: true
 
 secrets:
