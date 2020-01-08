@@ -1,0 +1,39 @@
+- name: Create disk image directory
+  file:
+    path: '{{ docker.volumes.image | dirname }}'
+    state: directory
+    mode: u=rw,g=r
+- name: Create Docker volumes disk image
+  command:
+    cmd: 'truncate -s {{ docker.volumes.size }} {{ docker.volumes.image }}'
+    creates: "{{ docker.volumes.image }}"
+- name: Format Docker volumes disk image as XFS
+  filesystem:
+    dev: "{{ docker['volumes']['image'] }}"
+    fstype: xfs
+
+- name: Mount and add Docker volumes disk image to /etc/fstab
+  mount:
+    src: '{{ docker.volumes.image }}'
+    path: '{{ docker.volumes.mountpoint }}'
+    fstype: xfs
+    opts: defaults,pquota
+    state: mounted
+
+- name: Add Docker GPG key
+  apt_key:
+    url: '{{ docker.ubuntu.gpg }}'
+    state: present
+- name: Add Docker APT repository
+  apt_repository:
+    repo: 'deb [arch=amd64] {{ docker.ubuntu.repo }} {{ ansible_lsb.codename }} stable'
+    update_cache: yes
+    state: present
+- name: Install Docker
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    update_cache: no
+    state: latest

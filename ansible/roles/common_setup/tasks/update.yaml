@@ -1,0 +1,22 @@
+- name: Update all packages
+  apt:
+    name: '*'
+    update_cache: yes
+    state: latest
+- name: Check if reboot is required
+  stat:
+    path: /var/run/reboot-required
+  register: check_reboot
+- name: Reboot if required
+  command: reboot
+  async: 1
+  poll: 0
+  when: check_reboot.stat.exists
+- name: Wait for node to come back online
+  wait_for_connection:
+    delay: 10
+    timeout: 120
+  when: check_reboot.stat.exists
+- name: Re-gather facts if rebooted
+  setup:
+  when: check_reboot.stat.exists
