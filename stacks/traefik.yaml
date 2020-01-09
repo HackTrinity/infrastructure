@@ -12,6 +12,8 @@ services:
         - 'traefik.http.routers.whoami.entrypoints=https'
         - 'traefik.http.routers.whoami.tls=true'
         - 'traefik.http.routers.whoami.tls.certresolver=le'
+        - 'traefik.http.routers.whoami.tls.domains[0].main=*.sys.hacktrinity.org'
+        - 'traefik.http.routers.whoami.tls.domains[0].sans=hacktrinity.org,*.hacktrinity.org,*.challs.hacktrinity.org'
         - 'traefik.http.services.whoami.loadbalancer.server.port=80'
   app:
     image: traefik:2.1
@@ -34,7 +36,7 @@ services:
       - --certificatesResolvers.le.acme.email=jackos1998@gmail.com
       - --certificatesResolvers.le.acme.storage=/acme/cache.json
       - --certificatesResolvers.le.acme.dnsChallenge.provider=cloudflare
-      #- --certificatesResolvers.le.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory
+      - --certificatesResolvers.le.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory
       - --api.dashboard=true
       - --log.level=INFO
       - --accesslog=true
@@ -72,6 +74,8 @@ services:
         - 'traefik.http.routers.www-redirect.entrypoints=https'
         - 'traefik.http.routers.www-redirect.tls=true'
         - 'traefik.http.routers.www-redirect.tls.certresolver=le'
+        - 'traefik.http.routers.www-redirect.tls.domains[0].main=*.hacktrinity.org'
+        - 'traefik.http.routers.www-redirect.tls.domains[0].sans=hacktrinity.org,*.hacktrinity.org,*.challs.hacktrinity.org'
         - 'traefik.http.routers.www-redirect.middlewares=www-redirect'
         - 'traefik.http.routers.www-redirect.service=noop'
         # Dashboard
@@ -79,6 +83,8 @@ services:
         - 'traefik.http.routers.api.entrypoints=https'
         - 'traefik.http.routers.api.tls=true'
         - 'traefik.http.routers.api.tls.certresolver=le'
+        - 'traefik.http.routers.api.tls.domains[0].main=*.sys.hacktrinity.org'
+        - 'traefik.http.routers.api.tls.domains[0].sans=hacktrinity.org,*.hacktrinity.org,*.challs.hacktrinity.org'
         - 'traefik.http.routers.api.service=api@internal'
         - 'traefik.http.routers.api.middlewares=auth'
     secrets:
