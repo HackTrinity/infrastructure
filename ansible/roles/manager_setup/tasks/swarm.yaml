@@ -49,6 +49,7 @@
     dest: '{{ gluster_params.volume.mountpoint }}/'
     archive: no
     recursive: yes
+    delete: yes
   run_once: yes
 - name: Create shared Docker volume directories
   file:
