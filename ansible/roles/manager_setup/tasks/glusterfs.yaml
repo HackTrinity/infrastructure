@@ -39,7 +39,7 @@
 - name: Create volume directory on mounted brick
   file:
     path: '/data/{{ gluster_params.volume.brick }}/{{ gluster_params.volume.name }}'
-    mode: u=rw,g=r
+    mode: u=rwx,g=rx
     state: directory
 
 - name: Create and start GlusterFS volume

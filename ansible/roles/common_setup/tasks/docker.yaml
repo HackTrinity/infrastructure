@@ -1,7 +1,7 @@
 - name: Create disk image directory
   file:
     path: '{{ docker.volumes.image | dirname }}'
-    mode: u=rw,g=r
+    mode: u=rwx,g=rx
     state: directory
 - name: Create Docker volumes disk image
   command:

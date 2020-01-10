@@ -63,7 +63,7 @@
 - name: Create shared Docker volume directories
   file:
     path: '{{ gluster_params.volume.mountpoint }}/{{ item }}'
-    mode: u=rw
+    mode: u=rwx
     state: directory
   loop: '{{ swarm.shared_volumes }}'
   run_once: yes
