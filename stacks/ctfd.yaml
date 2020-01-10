@@ -1,0 +1,91 @@
+version: '3.3'
+services:
+  db:
+    image: mariadb:10
+    command:
+      - mysqld
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --wait_timeout=28800
+      - --log-warnings=0
+    environment:
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/ctfd_db_password
+      - MYSQL_DATABASE=ctfd
+    volumes:
+      - ${DOCKER_SHARED}/ctfd/mariadb:/var/lib/mysql
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+    secrets:
+      - ctfd_db_password
+  redis:
+    image: redis:alpine
+    deploy:
+      mode: replicated
+      replicas: 1
+
+  app:
+    image: ${DOCKER_REGISTRY}/ctfd
+    environment:
+      - SECRET_KEY_FILE=/run/secrets/ctfd_secret_key
+      - DATABASE_URL_FILE=/run/secrets/ctfd_db_url
+      - REDIS_URL=redis://redis
+
+      - MAILFROM_ADDR=ctfd@hacktrinity.org
+      - MAIL_SERVER=mail.nul.ie
+      - MAIL_USEAUTH=True
+      - MAIL_USERNAME=admin@hacktrinity.org
+      - MAIL_PASSWORD_FILE=/run/secrets/ctfd_smtp_password
+      - MAIL_TLS=True
+
+      - LOG_FOLDER=/var/log/CTFd
+      - UPLOAD_FOLDER=/var/lib/uploads
+
+      - REVERSE_PROXY=True
+      - TEMPLATES_AUTO_RELOAD=False
+      - UPDATE_CHECK=False
+      - SERVER_SENT_EVENTS=True
+    volumes:
+      - ${DOCKER_SHARED}/ctfd/uploads:/var/lib/uploads
+      - logs:/var/log/CTFd
+    networks:
+      - default
+      - traefik
+    deploy:
+      mode: replicated
+      replicas: 3
+      placement:
+        constraints:
+          - node.role == manager
+      labels:
+        - 'traefik.enable=true'
+        - 'traefik.http.routers.ctfd.rule=Host(`hacktrinity.org`)'
+        - 'traefik.http.routers.ctfd.entrypoints=https'
+        - 'traefik.http.routers.ctfd.tls=true'
+        - 'traefik.http.routers.ctfd.tls.certresolver=le'
+        - 'traefik.http.routers.ctfd.tls.domains[0].sans=*.hacktrinity.org,*.sys.hacktrinity.org,*.challs.hacktrinity.org'
+        - 'traefik.http.services.ctfd.loadbalancer.server.port=8000'
+    secrets:
+      - ctfd_secret_key
+      - ctfd_db_url
+      - ctfd_smtp_password
+
+volumes:
+  logs:
+
+networks:
+  traefik:
+    external: true
+
+secrets:
+  ctfd_db_password:
+    external: true
+  ctfd_secret_key:
+    external: true
+  ctfd_db_url:
+    external: true
+  ctfd_smtp_password:
+    external: true

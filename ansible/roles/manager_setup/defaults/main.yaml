@@ -10,3 +10,5 @@ swarm:
   traefik_network: traefik
   shared_volumes:
     - portainer
+    - ctfd/mariadb
+    - ctfd/uploads
