@@ -44,17 +44,21 @@
     label: '{{ item.key }}'
   run_once: yes
 - name: Save Docker registry to environment
-  lineinfile:
-    path: /root/.profile
-    regex: '^export DOCKER_REGISTRY='
-    line: 'export DOCKER_REGISTRY={{ docker.registry }}'
-    state: present
+  vars:
+    var: DOCKER_REGISTRY
+    value: '{{ docker.registry }}'
+  import_tasks: env.yaml
 - name: Log in to Docker registry
   docker_login:
     username: nologin
     password: '{{ scaleway_token }}'
     registry_url: '{{ docker.registry }}'
     state: present
+- name: Save shared Docker volume path to environment
+  vars:
+    var: SHARED_VOLUMES
+    value: '{{ gluster_params.volume.mountpoint }}'
+  import_tasks: env.yaml
 - name: Create shared Docker volume directories
   file:
     path: '{{ gluster_params.volume.mountpoint }}/{{ item }}'
