@@ -57,7 +57,7 @@
     state: present
 - name: Save shared Docker volume path to environment
   vars:
-    var: SHARED_VOLUMES
+    var: DOCKER_SHARED
     value: '{{ gluster_params.volume.mountpoint }}'
   import_tasks: env.yaml
 - name: Create shared Docker volume directories
