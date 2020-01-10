@@ -37,7 +37,8 @@
 - name: Upload Docker secrets
   docker_secret:
     name: '{{ item.key }}'
-    data: '{{ item.value }}'
+    data: '{{ item.value.value }}'
+    data_is_b64: "{{ item.value.b64 | default('no') }}"
     state: present
   loop: '{{ docker_secrets | dict2items }}'
   loop_control:
