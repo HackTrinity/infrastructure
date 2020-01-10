@@ -73,5 +73,7 @@
     dest: '{{ gluster_params.volume.mountpoint }}/'
     archive: no
     recursive: yes
+    links: yes
+    times: yes
     delete: yes
   run_once: yes
