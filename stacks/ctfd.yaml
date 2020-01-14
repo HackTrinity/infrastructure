@@ -7,6 +7,7 @@ services:
       - --collation-server=utf8mb4_unicode_ci
       - --wait_timeout=28800
     environment:
+      - MYSQL_INITDB_SKIP_TZINFO=yes
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_USER=ctfd
       - MYSQL_PASSWORD_FILE=/run/secrets/ctfd_db_password
@@ -38,6 +39,7 @@ services:
 
       - MAILFROM_ADDR=ctfd@hacktrinity.org
       - MAIL_SERVER=mail.nul.ie
+      - MAIL_PORT=587
       - MAIL_USEAUTH=True
       - MAIL_USERNAME=admin@hacktrinity.org
       - MAIL_PASSWORD_FILE=/run/secrets/ctfd_smtp_password
