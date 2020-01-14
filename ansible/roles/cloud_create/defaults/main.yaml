@@ -14,7 +14,7 @@ cloud_params:
       #manager: ccx21
       manager: cx11
       worker: cx11
-    region: nbg1
+    region: fsn1
     image: ubuntu-18.04
     ssh_key: main
   vultr:
