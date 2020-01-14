@@ -57,6 +57,15 @@
   tags:
     - dns
     - hcloud
+- name: Create reverse DNS records for {{ type }} {{ i + 1 }}
+  hcloud_rdns:
+    server: '{{ type }}{{ i + 1 }}'
+    ip_address: '{{ hcloud_result.hcloud_server.ipv4_address }}'
+    dns_ptr: '{{ i + 1 }}.{{ type }}s.sys.{{ domain }}'
+    state: present
+  tags:
+    - dns
+    - hcloud
 
 - name: Create {{ type }} {{ i + 2 }} on Vultr
   vultr_server:
