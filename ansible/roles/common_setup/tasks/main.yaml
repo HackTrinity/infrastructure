@@ -8,6 +8,11 @@
     name: '{{ ubuntu_utils }}'
     state: latest
 
+- name: Set up firewall
+  import_tasks: firewall.yaml
+  tags:
+    - firewall
+
 - name: Set up WireGuard
   import_tasks: wireguard.yaml
   tags:

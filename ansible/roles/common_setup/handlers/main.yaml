@@ -3,3 +3,7 @@
     unit: 'wg-quick@{{ wireguard.interface }}.service'
     state: restarted
   when: not wg_started.changed
+
+- name: Reload iptables
+  command: netfilter-persistent reload
+  when: not iptables_started.changed

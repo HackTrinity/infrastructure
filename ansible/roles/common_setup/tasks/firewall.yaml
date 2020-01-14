@@ -1,0 +1,24 @@
+- name: Install persistent iptables
+  apt:
+    name: iptables-persistent
+    state: latest
+
+- name: Set up IPv4 rules
+  vars:
+    privnet: '{{ wireguard.ip_prefix.manager }}.0/{{ wireguard.cidr }}'
+  template:
+    src: rules.v4.j2
+    dest: /etc/iptables/rules.v4
+  notify: Reload iptables
+- name: Set up IPv6 rules
+  copy:
+    src: rules.v6
+    dest: /etc/iptables/rules.v6
+  notify: Reload iptables
+
+- name: Load iptables rules
+  systemd:
+    unit: netfilter-persistent.service
+    enabled: yes
+    state: started
+  register: iptables_started
