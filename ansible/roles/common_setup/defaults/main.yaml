@@ -22,3 +22,4 @@ docker:
     image: /data/docker-volumes.img
     mountpoint: /var/lib/docker/volumes
     size: 8G
+timezone: Europe/Dublin

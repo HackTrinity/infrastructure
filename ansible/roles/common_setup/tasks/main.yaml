@@ -8,6 +8,10 @@
     name: '{{ ubuntu_utils }}'
     state: latest
 
+- name: Set up timezone
+  timezone:
+    name: '{{ timezone }}'
+
 - name: Set up firewall
   import_tasks: firewall.yaml
   tags:
