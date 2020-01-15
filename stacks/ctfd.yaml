@@ -52,7 +52,6 @@ services:
       - REVERSE_PROXY=True
       - TEMPLATES_AUTO_RELOAD=False
       - UPDATE_CHECK=False
-      - SERVER_SENT_EVENTS=True
     volumes:
       - ${DOCKER_SHARED}/ctfd/uploads:/var/lib/uploads
       - logs:/var/log/CTFd
