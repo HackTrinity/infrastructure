@@ -8,7 +8,7 @@ services:
       - --wait_timeout=28800
     environment:
       - MYSQL_INITDB_SKIP_TZINFO=yes
-      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/ctfd_db_root_password
       - MYSQL_USER=ctfd
       - MYSQL_PASSWORD_FILE=/run/secrets/ctfd_db_password
       - MYSQL_DATABASE=ctfd
@@ -23,6 +23,7 @@ services:
       # https://github.com/moby/moby/issues/37822
       endpoint_mode: dnsrr
     secrets:
+      - ctfd_db_root_password
       - ctfd_db_password
   redis:
     image: redis:alpine
@@ -85,6 +86,8 @@ networks:
     external: true
 
 secrets:
+  ctfd_db_root_password:
+    external: true
   ctfd_db_password:
     external: true
   ctfd_secret_key:
