@@ -35,7 +35,8 @@ services:
     image: ${DOCKER_REGISTRY}/ctfd
     environment:
       - SECRET_KEY_FILE=/run/secrets/ctfd_secret_key
-      - DATABASE_URL_FILE=/run/secrets/ctfd_db_url
+      - DATABASE_PASSWORD_FILE=/run/secrets/ctfd_db_password
+      - DATABASE_URL=mysql+pymysql://ctfd:{password}@db/ctfd
       - REDIS_URL=redis://redis
 
       - MAILFROM_ADDR=ctfd@hacktrinity.org
@@ -75,7 +76,7 @@ services:
         - 'traefik.http.services.ctfd.loadbalancer.server.port=8000'
     secrets:
       - ctfd_secret_key
-      - ctfd_db_url
+      - ctfd_db_password
       - ctfd_smtp_password
 
 volumes:
@@ -91,8 +92,6 @@ secrets:
   ctfd_db_password:
     external: true
   ctfd_secret_key:
-    external: true
-  ctfd_db_url:
     external: true
   ctfd_smtp_password:
     external: true
