@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+import sys
+import os
+import json
+
+CAP_ADD_VAR = '__CAP_ADD'
+
+def get_env(config, key, default=None):
+    for var in config['process']['env']:
+        if var.startswith(key):
+            return '='.join(var.split('=')[1:])
+    return default
+
+def inject_service_capabilities(bundle):
+    config_filename = os.path.join(bundle, 'config.json')
+    with open(config_filename) as config_file:
+        config = json.load(config_file)
+
+    caps = list(map(lambda c: f'CAP_{c}', filter(lambda c: c, get_env(config, CAP_ADD_VAR, '').split(','))))
+    config['process']['capabilities']['bounding'].extend(caps)
+    config['process']['capabilities']['effective'].extend(caps)
+    config['process']['capabilities']['inheritable'].extend(caps)
+    config['process']['capabilities']['permitted'].extend(caps)
+
+    with open(config_filename, 'w') as config_file:
+        json.dump(config, config_file)
+
+def main():
+    for i, arg in enumerate(sys.argv):
+        print(arg)
+        if arg == '--bundle':
+            inject_service_capabilities(sys.argv[i + 1])
+            break
+
+    sys.argv[0] = 'runc'
+    os.execvp('runc', sys.argv)
+
+if __name__ == '__main__':
+    main()

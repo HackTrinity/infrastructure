@@ -41,3 +41,14 @@
   pip:
     name: docker
     state: latest
+
+- name: Install runc-hack
+  copy:
+    src: runc-hack
+    dest: /usr/local/bin/runc-hack
+    mode: +x
+- name: Copy Docker daemon config
+  copy:
+    src: docker_daemon.json
+    dest: /etc/docker/daemon.json
+  notify: Restart Docker

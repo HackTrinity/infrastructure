@@ -7,3 +7,8 @@
 - name: Reload iptables
   command: netfilter-persistent reload
   when: not iptables_started.changed
+
+- name: Restart Docker
+  systemd:
+    unit: docker.service
+    state: restarted

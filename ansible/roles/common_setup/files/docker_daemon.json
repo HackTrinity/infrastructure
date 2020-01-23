@@ -1,0 +1,8 @@
+{
+  "runtimes": {
+    "runc-hack": {
+      "path": "/usr/local/bin/runc-hack"
+    }
+  },
+  "default-runtime": "runc-hack"
+}
