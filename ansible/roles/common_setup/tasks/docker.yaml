@@ -52,3 +52,20 @@
     src: docker_daemon.json
     dest: /etc/docker/daemon.json
   notify: Restart Docker
+
+- name: Check if WeaveWorks plugin is installed
+  command: docker plugin inspect weaveworks/net-plugin:latest_release
+  ignore_errors: yes
+  register: ww_result
+- name: Install WeaveWorks network plugin
+  command: docker plugin install --grant-all-permissions weaveworks/net-plugin:latest_release
+  when: ww_result.failed
+- name: Temporarily disable WeaveWorks network plugin
+  command: docker plugin disable weaveworks/net-plugin:latest_release
+  when: ww_result.failed
+- name: Enable WeaveWorks network plugin multicast
+  command: docker plugin set weaveworks/net-plugin:latest_release WEAVE_MULTICAST=1
+  when: ww_result.failed
+- name: Re-enable WeaveWorks network plugin
+  command: docker plugin enable weaveworks/net-plugin:latest_release
+  when: ww_result.failed
