@@ -31,13 +31,41 @@ services:
       mode: replicated
       replicas: 1
 
+  chad:
+    image: $DOCKER_REGISTRY/chad/server
+    environment:
+      - DOCKER_REGISTRY=$DOCKER_REGISTRY
+      - ID_SALT_FILE=/run/secrets/chad_id_salt
+      - FLAG_PREFIX=HackTrinity
+      - REDIS_URL=redis://redis/1
+      - GATEWAY_IMAGE=$DOCKER_REGISTRY/chad/gateway
+      - GATEWAY_PROXY=chad-gw.sys.hacktrinity.org
+      - CHALLENGE_DOMAIN=challs.hacktrinity.org
+      - TRAEFIK_NETWORK=traefik
+      - CLEANUP_DISABLED=yes
+      - CLEANUP_INTERVAL=300
+      - CLEANUP_TIMEOUT=600
+    volumes:
+      - /var/run/docker.sock:/run/docker.sock
+      - /root/.docker/config.json:/root/.docker/config.json:ro
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+    secrets:
+      - chad_id_salt
+    #ports:
+    #  - 8001:80
+
   app:
-    image: ${DOCKER_REGISTRY}/ctfd
+    image: $DOCKER_REGISTRY/ctfd
     environment:
       - SECRET_KEY_FILE=/run/secrets/ctfd_secret_key
       - DATABASE_PASSWORD_FILE=/run/secrets/ctfd_db_password
       - DATABASE_URL=mysql+pymysql://ctfd:{password}@db/ctfd
-      - REDIS_URL=redis://redis
+      - REDIS_URL=redis://redis/0
 
       - MAILFROM_ADDR=ctfd@hacktrinity.org
       - MAIL_SERVER=mail.nul.ie
@@ -94,4 +122,6 @@ secrets:
   ctfd_secret_key:
     external: true
   ctfd_smtp_password:
+    external: true
+  chad_id_salt:
     external: true
