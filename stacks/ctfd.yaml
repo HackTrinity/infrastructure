@@ -13,7 +13,7 @@ services:
       - MYSQL_PASSWORD_FILE=/run/secrets/ctfd_db_password
       - MYSQL_DATABASE=ctfd
     volumes:
-      - ${DOCKER_SHARED}/ctfd/mariadb:/var/lib/mysql
+      - $DOCKER_SHARED/ctfd/mariadb:/var/lib/mysql
     deploy:
       mode: replicated
       replicas: 1
@@ -39,8 +39,7 @@ services:
       - FLAG_PREFIX=HackTrinity
       - REDIS_URL=redis://redis/1
       - GATEWAY_IMAGE=$DOCKER_REGISTRY/chad/gateway
-      - GATEWAY_PROXY=chad-gw.sys.hacktrinity.org
-      - CHALLENGE_DOMAIN=challs.hacktrinity.org
+      - GATEWAY_DOMAIN=chad-gw.sys.hacktrinity.org
       - TRAEFIK_NETWORK=traefik
       - CLEANUP_DISABLED=yes
       - CLEANUP_INTERVAL=300
@@ -48,6 +47,7 @@ services:
     volumes:
       - /var/run/docker.sock:/run/docker.sock
       - /root/.docker/config.json:/root/.docker/config.json:ro
+      - $DOCKER_SHARED/chad_pki:/etc/chad_pki
     deploy:
       mode: replicated
       replicas: 1
@@ -83,7 +83,7 @@ services:
       - TEMPLATES_AUTO_RELOAD=False
       - UPDATE_CHECK=False
     volumes:
-      - ${DOCKER_SHARED}/ctfd/uploads:/var/lib/uploads
+      - $DOCKER_SHARED/ctfd/uploads:/var/lib/uploads
       - logs:/var/log/CTFd
     networks:
       - default

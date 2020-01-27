@@ -12,3 +12,4 @@ swarm:
     - portainer
     - ctfd/mariadb
     - ctfd/uploads
+    - chad_pki
