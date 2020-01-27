@@ -3,6 +3,7 @@ ubuntu_utils:
   - iputils-ping
   - traceroute
   - ldnsutils
+  - tree
 wireguard:
   ppa: ppa:wireguard/wireguard
   dir: /etc/wireguard
