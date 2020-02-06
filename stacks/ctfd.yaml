@@ -41,7 +41,7 @@ services:
       - GATEWAY_IMAGE=$DOCKER_REGISTRY/chad/gateway
       - GATEWAY_DOMAIN=chad-gw.sys.hacktrinity.org
       - TRAEFIK_NETWORK=traefik
-      - CLEANUP_DISABLED=yes
+      #- CLEANUP_DISABLED=yes
       - CLEANUP_INTERVAL=300
       - CLEANUP_INSTANCE_TIMEOUT=600
       - CLEANUP_GATEWAY_TIMEOUT=1200
@@ -57,8 +57,6 @@ services:
           - node.role == manager
     secrets:
       - chad_id_salt
-    #ports:
-    #  - 8001:80
 
   app:
     image: $DOCKER_REGISTRY/ctfd
@@ -83,6 +81,8 @@ services:
       - REVERSE_PROXY=True
       - TEMPLATES_AUTO_RELOAD=False
       - UPDATE_CHECK=False
+
+      - CHAD_ENDPOINT=http://chad
     volumes:
       - $DOCKER_SHARED/ctfd/uploads:/var/lib/uploads
       - logs:/var/log/CTFd
