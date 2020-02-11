@@ -36,7 +36,7 @@ services:
       - --certificatesResolvers.le.acme.email=jackos1998@gmail.com
       - --certificatesResolvers.le.acme.storage=/acme/cache.json
       - --certificatesResolvers.le.acme.dnsChallenge.provider=cloudflare
-      - --certificatesResolvers.le.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory
+      #- --certificatesResolvers.le.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory
       - --api.dashboard=true
       - --log.level=INFO
       - --accesslog=true
