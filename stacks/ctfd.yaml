@@ -77,7 +77,6 @@ services:
       - LOG_FOLDER=/var/log/CTFd
       - UPLOAD_FOLDER=/var/lib/uploads
 
-      #- ENABLE_PROFILING=True
       - REVERSE_PROXY=True
       - TEMPLATES_AUTO_RELOAD=False
       - UPDATE_CHECK=False
