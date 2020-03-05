@@ -9,6 +9,7 @@ wireguard:
   dir: /etc/wireguard
   privkey_file: privkey
   interface: priv-mesh
+  keepalive: 5
   port: 51820
   cidr: 23
   ip_prefix:

@@ -28,7 +28,7 @@ COMMIT
 -A TCP -p tcp --dport 22 -j ACCEPT
 
 # Acceptable UDP traffic
-
+-A UDP -p udp --dport 51820 -j ACCEPT
 
 # Boilerplate acceptance policy
 -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT

@@ -9,4 +9,5 @@ ListenPort = {{ wireguard.port }}
 PublicKey = {{ hostvars[inventory_hostname]['wg_pubkey_' + peer.inventory_hostname] }}
 Endpoint = {{ peer.ht_node.id }}.{{ peer.ht_node.type }}s.sys.{{ domain }}:{{ wireguard.port }}
 AllowedIPs = {{ wireguard.ip_prefix[peer.ht_node.type] }}.{{ peer.ht_node.id + 1 }}/32
+PersistentKeepalive = {{ wireguard.keepalive }}
 {% endfor %}
