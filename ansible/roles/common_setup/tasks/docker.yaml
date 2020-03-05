@@ -1,21 +1,21 @@
 - name: Create disk image directory
   file:
-    path: '{{ docker.volumes.image | dirname }}'
+    path: '{{ docker.storage.image | dirname }}'
     mode: u=rwx,g=rx
     state: directory
-- name: Create Docker volumes disk image
+- name: Create Docker state disk image
   command:
-    cmd: 'truncate -s {{ docker.volumes.size }} {{ docker.volumes.image }}'
-    creates: '{{ docker.volumes.image }}'
-- name: Format Docker volumes disk image as XFS
+    cmd: 'truncate -s {{ docker.storage.size }} {{ docker.storage.image }}'
+    creates: '{{ docker.storage.image }}'
+- name: Format Docker state disk image as XFS
   filesystem:
-    dev: '{{ docker.volumes.image }}'
+    dev: '{{ docker.storage.image }}'
     fstype: xfs
 
-- name: Mount and add Docker volumes disk image to /etc/fstab
+- name: Mount and add Docker state disk image to /etc/fstab
   mount:
-    src: '{{ docker.volumes.image }}'
-    path: '{{ docker.volumes.mountpoint }}'
+    src: '{{ docker.storage.image }}'
+    path: '{{ docker.storage.mountpoint }}'
     fstype: xfs
     opts: defaults,pquota
     state: mounted

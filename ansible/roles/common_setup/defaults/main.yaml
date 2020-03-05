@@ -19,8 +19,8 @@ docker:
     gpg: https://download.docker.com/linux/ubuntu/gpg
     repo: https://download.docker.com/linux/ubuntu
   registry: rg.fr-par.scw.cloud/ht20
-  volumes:
-    image: /data/docker-volumes.img
-    mountpoint: /var/lib/docker/volumes
+  storage:
+    image: /data/docker.img
+    mountpoint: /var/lib/docker
     size: 8G
 timezone: Europe/Dublin
