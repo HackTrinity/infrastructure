@@ -24,6 +24,8 @@
   apt_key:
     url: '{{ docker.ubuntu.gpg }}'
     state: present
+  tags:
+    - gpg
 - name: Add Docker APT repository
   apt_repository:
     repo: 'deb [arch=amd64] {{ docker.ubuntu.repo }} {{ ansible_lsb.codename }} stable'
@@ -32,11 +34,21 @@
 - name: Install Docker
   apt:
     name:
-      - docker-ce
-      - docker-ce-cli
+      # FUCK MY LIFE https://github.com/moby/moby/issues/40626
+      - docker-ce=5:19.03.6~3-0~ubuntu-bionic
+      - docker-ce-cli=5:19.03.6~3-0~ubuntu-bionic
       - containerd.io
+    force: yes
     update_cache: no
-    state: latest
+    state: present
+- name: Hold Docker CE version
+  dpkg_selections:
+    name: docker-ce
+    selection: hold
+- name: Hold Docker CE CLI version
+  dpkg_selections:
+    name: docker-ce-cli
+    selection: hold
 - name: Install Docker SDK for Python
   pip:
     name: docker
