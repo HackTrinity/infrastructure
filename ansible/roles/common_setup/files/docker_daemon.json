@@ -4,5 +4,8 @@
       "path": "/usr/local/bin/runc-hack"
     }
   },
-  "default-runtime": "runc-hack"
+  "default-runtime": "runc-hack",
+  "storage-opts": [
+    "overlay2.size=512M"
+  ]
 }
