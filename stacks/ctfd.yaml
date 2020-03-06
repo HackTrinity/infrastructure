@@ -82,6 +82,16 @@ services:
       - UPDATE_CHECK=False
 
       - CHAD_ENDPOINT=http://chad
+      - >-
+        MAIL_LABELS={
+          "tcd.ie":"TCD",
+          "ucdconnect.ie":"UCD",
+          "mytudublin.ie":"TU Dublin",
+          "mydit.ie":"TU Dublin",
+          "mail.dcu.ie":"DCU",
+          "qub.ac.uk": "QUB",
+          "umail.ucc.ie":"UCC"
+        }
     volumes:
       - $DOCKER_SHARED/ctfd/uploads:/var/lib/uploads
       - logs:/var/log/CTFd
