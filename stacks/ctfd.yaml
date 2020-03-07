@@ -122,6 +122,7 @@ services:
       - ctfd_secret_key
       - ctfd_db_password
       - ctfd_smtp_password
+      - ctfd_recaptcha_secret
 
 volumes:
   logs:
@@ -138,6 +139,8 @@ secrets:
   ctfd_secret_key:
     external: true
   ctfd_smtp_password:
+    external: true
+  ctfd_recaptcha_secret:
     external: true
   chad_id_salt:
     external: true
