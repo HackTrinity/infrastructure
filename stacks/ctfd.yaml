@@ -92,6 +92,12 @@ services:
           "qub.ac.uk": "QUB",
           "umail.ucc.ie":"UCC"
         }
+
+      - RECAPTCHA_ENABLED=true
+      - RECAPTCHA_SITE_KEY=6Leoft8UAAAAAEZtUVWqqxxLMf9eboovjFkbm8tm
+      - RECAPTCHA_SECRET_FILE=/run/secrets/ctfd_recaptcha_secret
+      - RECAPTCHA_INSERT_KEYS=true
+      - RECAPTCHA_VERIFY_REMOTE_IP=true
     volumes:
       - $DOCKER_SHARED/ctfd/uploads:/var/lib/uploads
       - logs:/var/log/CTFd
