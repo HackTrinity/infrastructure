@@ -90,7 +90,8 @@ services:
           "mydit.ie":"TU Dublin",
           "mail.dcu.ie":"DCU",
           "qub.ac.uk": "QUB",
-          "umail.ucc.ie":"UCC"
+          "umail.ucc.ie":"UCC",
+          "gmit.ie": "GMIT"
         }
 
       - RECAPTCHA_ENABLED=true
