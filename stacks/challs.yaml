@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+  casual:
+    image: $DOCKER_REGISTRY/challenges/casual
+    networks:
+      - traefik
+    deploy:
+      labels:
+        - 'traefik.enable=true'
+        - 'traefik.http.routers.chall_casual.rule=Host(`casual.challs.hacktrinity.org`)'
+        - 'traefik.http.routers.chall_casual.entrypoints=https'
+        - 'traefik.http.routers.chall_casual.tls=true'
+        - 'traefik.http.routers.chall_casual.tls.certresolver=le'
+        - 'traefik.http.routers.chall_casual.tls.domains[0].sans=*.hacktrinity.org,*.sys.hacktrinity.org,*.challs.hacktrinity.org'
+        - 'traefik.http.services.chall_casual.loadbalancer.server.port=80'
+
+networks:
+  traefik:
+    external: true
