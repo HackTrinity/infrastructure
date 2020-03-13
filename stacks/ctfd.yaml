@@ -91,7 +91,8 @@ services:
           "mail.dcu.ie":"DCU",
           "qub.ac.uk": "QUB",
           "umail.ucc.ie":"UCC",
-          "gmit.ie": "GMIT"
+          "gmit.ie": "GMIT",
+          "student.lyit.ie": "LYIT"
         }
 
       - RECAPTCHA_ENABLED=true
