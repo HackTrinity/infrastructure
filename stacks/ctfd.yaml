@@ -45,6 +45,7 @@ services:
       - CLEANUP_INTERVAL=300
       - CLEANUP_INSTANCE_TIMEOUT=600
       - CLEANUP_GATEWAY_TIMEOUT=1200
+      - NETWORK_PLUGIN=weaveworks/net-plugin:2.6.0
     volumes:
       - /var/run/docker.sock:/run/docker.sock
       - /root/.docker/config.json:/root/.docker/config.json:ro
