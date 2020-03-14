@@ -31,8 +31,10 @@
 
 - name: Create Traefik network
   docker_network:
-    name: '{{ swarm.traefik_network }}'
+    name: '{{ swarm.traefik_network.name }}'
     driver: overlay
+    ipam_config:
+      subnet: '{{ swarm.traefik_network.subnet }}'
     state: present
 - name: Upload Docker secrets
   docker_secret:

@@ -7,7 +7,9 @@ gluster_params:
     fs: xfs
     mountpoint: /mnt/docker-shared
 swarm:
-  traefik_network: traefik
+  traefik_network:
+    name: traefik
+    subnet: 10.137.0.0/16
   shared_volumes:
     - portainer
     - ctfd/mariadb
