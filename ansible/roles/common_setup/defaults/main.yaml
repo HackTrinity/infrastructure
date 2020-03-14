@@ -24,4 +24,5 @@ docker:
     image: /data/docker.img
     mountpoint: /var/lib/docker
     size: 128G
+  weaveworks: weaveworks/net-plugin:2.6.0
 timezone: Europe/Dublin
