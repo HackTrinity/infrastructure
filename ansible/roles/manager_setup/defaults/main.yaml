@@ -3,7 +3,7 @@ gluster_params:
   volume:
     name: docker-shared-volumes
     brick: brick0
-    size: 8G
+    size: 96G
     fs: xfs
     mountpoint: /mnt/docker-shared
 swarm:

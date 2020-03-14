@@ -23,5 +23,5 @@ docker:
   storage:
     image: /data/docker.img
     mountpoint: /var/lib/docker
-    size: 8G
+    size: 128G
 timezone: Europe/Dublin
