@@ -41,14 +41,8 @@
     force: yes
     update_cache: no
     state: present
-- name: Hold Docker CE version
-  dpkg_selections:
-    name: docker-ce
-    selection: hold
-- name: Hold Docker CE CLI version
-  dpkg_selections:
-    name: docker-ce-cli
-    selection: hold
+- name: Hold Docker version
+  command: apt-mark hold docker-ce docker-ce-cli
 - name: Install Docker SDK for Python
   pip:
     name: docker
