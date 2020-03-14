@@ -34,8 +34,9 @@
     name: '{{ swarm.traefik_network.name }}'
     driver: overlay
     ipam_config:
-      subnet: '{{ swarm.traefik_network.subnet }}'
+      - subnet: '{{ swarm.traefik_network.subnet }}'
     state: present
+  when: inventory_hostname == init_node
 - name: Upload Docker secrets
   docker_secret:
     name: '{{ item.key }}'
