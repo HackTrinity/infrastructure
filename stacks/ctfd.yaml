@@ -93,7 +93,8 @@ services:
           "qub.ac.uk": "QUB",
           "umail.ucc.ie":"UCC",
           "gmit.ie": "GMIT",
-          "student.lyit.ie": "LYIT"
+          "student.lyit.ie": "LYIT",
+          "itcarlow.ie": "IT Carlow"
         }
 
       - RECAPTCHA_ENABLED=true
