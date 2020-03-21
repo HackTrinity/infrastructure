@@ -94,7 +94,8 @@ services:
           "umail.ucc.ie":"UCC",
           "gmit.ie": "GMIT",
           "student.lyit.ie": "LYIT",
-          "itcarlow.ie": "IT Carlow"
+          "itcarlow.ie": "IT Carlow",
+          "nuigalway.ie": "NUIG"
         }
 
       - RECAPTCHA_ENABLED=true
